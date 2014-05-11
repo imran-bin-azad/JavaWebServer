@@ -1,8 +1,9 @@
 package net.therap;
 
-import input.PropertiesInput;
-import input.UserInput;
-import service.HttpServer;
+
+import net.therap.input.PropertiesInput;
+import net.therap.input.UserInput;
+import net.therap.service.HttpServer;
 
 public class Main {
 
