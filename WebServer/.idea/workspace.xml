@@ -25,6 +25,7 @@
     <file path="$PROJECT_DIR$/../request_to_slashroot/src/net/company/EchoClient.java" changelist="efa1af28-7485-42f4-9761-9f94895bc5fe" time="1399789024874" ignored="false" />
     <file path="$PROJECT_DIR$/../request_to_slashroot/src/net/therap/Main.java" changelist="efa1af28-7485-42f4-9761-9f94895bc5fe" time="1399789058728" ignored="false" />
     <file path="$PROJECT_DIR$/../request_to_slashroot/src/net/therap/EchoClient.java" changelist="efa1af28-7485-42f4-9761-9f94895bc5fe" time="1399789058728" ignored="false" />
+    <file path="/Dummy.txt" changelist="efa1af28-7485-42f4-9761-9f94895bc5fe" time="1399804544396" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -160,7 +161,7 @@
       <file leaf-file-name="Main.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/net/therap/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="0" selection-start="518" selection-end="518" vertical-scroll-proportion="0.5135135">
+            <state line="13" column="0" selection-start="403" selection-end="403" vertical-scroll-proportion="0.35135135">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -649,7 +650,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/net/therap/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="0" selection-start="518" selection-end="518" vertical-scroll-proportion="0.5135135">
+        <state line="13" column="0" selection-start="403" selection-end="403" vertical-scroll-proportion="0.35135135">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
