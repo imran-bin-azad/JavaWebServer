@@ -7,7 +7,7 @@ package net.therap.http;
  * Time: 1:34 PM
  * To change this template use File | Settings | File Templates.
  */
-public class FormData {
+public class RequestBody {
     public String key;
     public String value;
 }

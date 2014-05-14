@@ -24,9 +24,7 @@ public class PropertiesInput implements UserInput {
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-
     }
-
 
     @Override
     public String getString(String name) {

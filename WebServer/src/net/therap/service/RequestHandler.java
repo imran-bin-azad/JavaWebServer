@@ -6,6 +6,7 @@ import net.therap.http.StatusMessage;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,11 +18,13 @@ import java.net.Socket;
 public class RequestHandler implements Runnable {
 
     private Socket clientSocket;
-    private String homeDirectory;
+    private String rootDirectory;
+    private HttpRequest httpRequest;
+    private HttpResponse httpResponse;
 
     public RequestHandler(Socket clientSocket, String homeDirectory) {
         this.clientSocket = clientSocket;
-        this.homeDirectory = homeDirectory;
+        this.rootDirectory = homeDirectory;
     }
 
     @Override
@@ -31,29 +34,18 @@ public class RequestHandler implements Runnable {
     }
 
     private void talkToClient() {
-        try(
-            BufferedReader inFromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        try (
+            InputStreamReader inputStreamReader = new InputStreamReader(clientSocket.getInputStream());
+            BufferedReader inFromClient = new BufferedReader(inputStreamReader);
             PrintWriter outToClient = new PrintWriter(clientSocket.getOutputStream(), true);
         ) {
-            HttpRequest httpRequest = new HttpRequest();
-            HttpResponse httpResponse = new HttpResponse(outToClient);
-
-            httpRequest.receiveRequest(inFromClient);
+            httpRequest = new HttpRequest(inFromClient);
+            httpRequest.receiveRequest();
 
             System.out.println("\nTime to RESPOND!!\n");
 
-
-            if (httpRequest.requestMethod.equals("GET")) {
-                handleGetRequests(httpRequest, httpResponse);
-            }
-
-            else if (httpRequest.requestMethod.equals("POST")) {
-                handlePostRequests(httpRequest, httpResponse);
-            }
-
-            else {
-                httpResponse.sendErrorMessage(StatusMessage.BadRequest, httpRequest.protocolVersion);
-            }
+            httpResponse = new HttpResponse(outToClient);
+            sendResponseBasedOnRequestMethod();
 
             System.out.println("\nResponse sent\n");
 
@@ -62,32 +54,44 @@ public class RequestHandler implements Runnable {
         }
     }
 
-    private void handleGetRequests(HttpRequest httpRequest, HttpResponse httpResponse) {
-        File requestedFile = new File(homeDirectory + httpRequest.requestURL);
-
-        if (!requestedFile.exists()) {
-            httpResponse.sendErrorMessage(StatusMessage.NotFound, httpRequest.protocolVersion);
-        }
-
-        else {
-            httpResponse.sendOKMessage(httpRequest.protocolVersion);
-
-            if (httpRequest.requestURL.equals("/")) {
-                // send login.html by default
-                httpResponse.sendResponse(new File(homeDirectory + "/login.html"));
-            }
-
-            else {
-                if(requestedFile.exists() && !requestedFile.isDirectory()) {
-                    httpResponse.sendResponse(requestedFile);
-                }
-            }
+    private void sendResponseBasedOnRequestMethod() {
+        if (httpRequest.requestMethod.equals("GET")) {
+            respondToGetRequests();
+        } else if (httpRequest.requestMethod.equals("POST")) {
+            respondToPostRequests();
+        } else {
+            httpResponse.sendErrorMessage(StatusMessage.BadRequest, httpRequest.protocolVersion);
         }
     }
 
-    private void handlePostRequests(HttpRequest httpRequest, HttpResponse httpResponse) {
+    private void respondToGetRequests() {
+        File requestedContent = new File(rootDirectory + httpRequest.requestURL);
+
+        if (!requestedContent.exists()) {
+            httpResponse.sendErrorMessage(StatusMessage.NotFound, httpRequest.protocolVersion);
+        } else {
+            httpResponse.sendOKMessage(httpRequest.protocolVersion);
+            sendResponseOnRequestedContent(requestedContent);
+        }
+    }
+
+    private void sendResponseOnRequestedContent(File requestedFile) {
+        if ( httpRequest.requestURL.equals("/") ) {
+            sendDefaultResponse();
+        } else if ( requestedFile.isDirectory() ) {
+            sendDefaultResponse();
+        } else {
+            httpResponse.sendResponse(requestedFile);
+        }
+    }
+
+    private void sendDefaultResponse() {
+        httpResponse.sendResponse(new File(rootDirectory + "/login.html"));
+    }
+
+    private void respondToPostRequests() {
         httpResponse.sendOKMessage(httpRequest.protocolVersion);
-        httpResponse.sendResponse(new File(homeDirectory + httpRequest.requestURL));
+        httpResponse.sendResponse(new File(rootDirectory + httpRequest.requestURL));
     }
 
 }
