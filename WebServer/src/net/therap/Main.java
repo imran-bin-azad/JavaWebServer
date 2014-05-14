@@ -1,6 +1,5 @@
 package net.therap;
 
-
 import net.therap.input.PropertiesInput;
 import net.therap.input.UserInput;
 import net.therap.service.HttpServer;

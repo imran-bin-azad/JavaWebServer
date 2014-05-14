@@ -43,13 +43,12 @@ public class HttpResponse {
         outToClient.flush();
     }
 
-
     public void sendResponse(File requestedFile) {
         System.out.println("Requested File: "+requestedFile.getName());
 
         try (
-                FileInputStream file = new FileInputStream(requestedFile);
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(file));
+            FileInputStream file = new FileInputStream(requestedFile);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(file));
         ) {
             String line;
             while ((line=bufferedReader.readLine())!=null) {
@@ -57,7 +56,6 @@ public class HttpResponse {
             }
 
             outToClient.flush();
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (IOException e) {

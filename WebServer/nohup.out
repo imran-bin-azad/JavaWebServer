@@ -1,0 +1,18 @@
+Java HotSpot(TM) 64-Bit Server VM (build 24.51-b03, mixed mode)
+Failed to clear URL cache
+Failed to clear URL cache
+[  17749]   WARN - pl.ExternalResourceManagerImpl - Cannot find standard resource. filename:/META-INF/tapestry_5_0_0.xsd class=null 
+[  23021]   WARN - openapi.wm.impl.ToolWindowImpl - ToolWindow icons should be 13x13. Please fix icon path=/ideTalk/user.png class=class icons.IdetalkCoreIcons 
+[  23112]   WARN - openapi.wm.impl.ToolWindowImpl - ToolWindow icons should be 13x13. Please fix icon path=/ideTalk/user.png class=class icons.IdetalkCoreIcons 
+[  28552]   WARN - openapi.wm.impl.ToolWindowImpl - ToolWindow icons should be 13x13. Please fix icon path=/ideTalk/user.png class=class icons.IdetalkCoreIcons 
+[  28556]   WARN - openapi.wm.impl.ToolWindowImpl - ToolWindow icons should be 13x13. Please fix icon path=/ideTalk/user.png class=class icons.IdetalkCoreIcons 
+[4513379]   WARN - openapi.wm.impl.ToolWindowImpl - ToolWindow icons should be 13x13. Please fix icon path=/ideTalk/user.png class=class icons.IdetalkCoreIcons 
+[4513383]   WARN - openapi.wm.impl.ToolWindowImpl - ToolWindow icons should be 13x13. Please fix icon path=/ideTalk/user.png class=class icons.IdetalkCoreIcons 
+[5418981]   WARN - openapi.wm.impl.ToolWindowImpl - ToolWindow icons should be 13x13. Please fix icon path=/ideTalk/user.png class=class icons.IdetalkCoreIcons 
+[5418985]   WARN - openapi.wm.impl.ToolWindowImpl - ToolWindow icons should be 13x13. Please fix icon path=/ideTalk/user.png class=class icons.IdetalkCoreIcons 
+[5878056]   WARN - openapi.wm.impl.ToolWindowImpl - ToolWindow icons should be 13x13. Please fix icon path=/ideTalk/user.png class=class icons.IdetalkCoreIcons 
+[5878059]   WARN - openapi.wm.impl.ToolWindowImpl - ToolWindow icons should be 13x13. Please fix icon path=/ideTalk/user.png class=class icons.IdetalkCoreIcons 
+[25783650]   WARN - api.vfs.impl.local.FileWatcher - Watcher terminated. 
+[25783664]   WARN - ution.process.OSProcessHandler - Cannot kill process tree. Trying to destroy process using Java API. Cmdline:
+null 
+Exception in XML-RPC listener loop (java.net.SocketException: Socket closed).

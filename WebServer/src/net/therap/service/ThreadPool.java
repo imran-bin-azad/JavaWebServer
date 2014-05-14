@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
  * Time: 9:16 AM
  * To change this template use File | Settings | File Templates.
  */
-public class ThreadPool {
+public class ThreadPool implements AutoCloseable {
 
     private ExecutorService executor;
 
@@ -22,7 +22,8 @@ public class ThreadPool {
         executor.execute(object);
     }
 
-    public void shutdown() {
+    @Override
+    public void close() {
         executor.shutdown();
         while (!executor.isTerminated()){}
         System.out.println("shutting down Thread Pool");
