@@ -16,61 +16,45 @@ public class HttpRequest {
 
     private BufferedReader inFromClient;
     private int contentLength;
-
-    public String requestMethod;
-    public String requestURL;
-    public String protocolVersion;
-    public List<RequestHeader> requestHeaders;
-    public List<RequestBody> contents;
+    private RequestLine requestLine;
+    private List<RequestHeader> requestHeaders;
+    private List<RequestBody> contents;
 
     public HttpRequest (BufferedReader inFromClient) {
         this.inFromClient = inFromClient;
     }
 
     public void receiveRequest() throws IOException {
-        getRequestHeadLine();
-        getHeadersAndContentLength();
-        getBody();
+        receiveRequestLine();
+        receiveHeadersAndContentLength();
+        receiveContents();
     }
 
-    private void getRequestHeadLine() throws IOException {
+    private void receiveRequestLine() throws IOException {
         String inputLine = inFromClient.readLine();
-        String[] parsedHeader = inputLine.split(" ");
-
-        requestMethod = parsedHeader[0];
-        requestURL = parsedHeader[1];
-        protocolVersion = parsedHeader[2];
+        requestLine = new RequestLine();
+        requestLine.parseRequestHeadLine(inputLine);
     }
 
-    private void getHeadersAndContentLength() throws IOException{
+    private void receiveHeadersAndContentLength() throws IOException{
         String inputLine;
         requestHeaders = new ArrayList<>();
         while ((inputLine = inFromClient.readLine()) != null) {
             if (inputLine.length() <= 0)
                 break;
 
-            RequestHeader requestHeader = getRequestHeaderFromLine(inputLine);
+            RequestHeader requestHeader = new RequestHeader();
+            requestHeader.parseRequestHeader(inputLine);
             requestHeaders.add(requestHeader);
 
-            if (requestHeader.key.equals("Content-Length:")) {
-                contentLength = Integer.parseInt(requestHeader.values.get(0));
+            if (requestHeader.keyEqualsTo("Content-Length:")) {
+                List<String> values = requestHeader.getValues();
+                contentLength = Integer.parseInt(values.get(0));
             }
         }
     }
 
-    private RequestHeader getRequestHeaderFromLine(String line) {
-        RequestHeader requestHeader = new RequestHeader();
-        String[] parsedLine = line.split(" ");
-        requestHeader.key = parsedLine[0];
-        requestHeader.values = new ArrayList<>();
-
-        for (int loop=1; loop < parsedLine.length; ++loop)
-            requestHeader.values.add(parsedLine[loop]);
-
-        return requestHeader;
-    }
-
-    private void getBody() throws IOException {
+    private void receiveContents() throws IOException {
         if (contentLength <= 0)
             return;
 
@@ -84,18 +68,22 @@ public class HttpRequest {
 
         String[] body = wholeBody.split("&");
         for (String line : body) {
-            RequestBody requestBody = getRequestBodyFromLine(line);
+            RequestBody requestBody = new RequestBody();
+            requestBody.parseRequestBody(line);
             contents.add(requestBody);
         }
     }
 
-    private RequestBody getRequestBodyFromLine(String line) {
-        String[] parsedData = line.split("=");
-        RequestBody requestBody = new RequestBody();
-        requestBody.key = parsedData[0];
-        requestBody.value = parsedData[1];
+    public String getRequestMethod() {
+        return requestLine.getRequestMethod();
+    }
 
-        return requestBody;
+    public String getRequestURL() {
+        return requestLine.getRequestURL();
+    }
+
+    public String getProtocolVersion() {
+        return requestLine.getProtocolVersion();
     }
 
 }

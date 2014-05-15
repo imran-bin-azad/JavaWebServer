@@ -39,46 +39,52 @@ public class RequestHandler implements Runnable {
             BufferedReader inFromClient = new BufferedReader(inputStreamReader);
             PrintWriter outToClient = new PrintWriter(clientSocket.getOutputStream(), true);
         ) {
+            System.out.println("Receiving Client Request");
             httpRequest = new HttpRequest(inFromClient);
             httpRequest.receiveRequest();
 
-            System.out.println("\nTime to RESPOND!!\n");
-
+            System.out.println("Time to RESPOND!!");
             httpResponse = new HttpResponse(outToClient);
             sendResponseBasedOnRequestMethod();
 
-            System.out.println("\nResponse sent\n");
-
+            System.out.println("Response sent");
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 
     private void sendResponseBasedOnRequestMethod() {
-        if (httpRequest.requestMethod.equals("GET")) {
+        String requestMethod = httpRequest.getRequestMethod();
+        String protocolVersion = httpRequest.getProtocolVersion();
+
+        if (requestMethod.equals("GET")) {
             respondToGetRequests();
-        } else if (httpRequest.requestMethod.equals("POST")) {
+        } else if (requestMethod.equals("POST")) {
             respondToPostRequests();
         } else {
-            httpResponse.sendErrorMessage(StatusMessage.BadRequest, httpRequest.protocolVersion);
+            httpResponse.sendErrorMessage(StatusMessage.BadRequest, protocolVersion);
         }
     }
 
     private void respondToGetRequests() {
-        File requestedContent = new File(rootDirectory + httpRequest.requestURL);
+        String requestURL = httpRequest.getRequestURL();
+        String protocolVersion = httpRequest.getProtocolVersion();
+        File requestedContent = new File(rootDirectory + requestURL);
 
         if (!requestedContent.exists()) {
-            httpResponse.sendErrorMessage(StatusMessage.NotFound, httpRequest.protocolVersion);
+            httpResponse.sendErrorMessage(StatusMessage.NotFound, protocolVersion);
         } else {
-            httpResponse.sendOKMessage(httpRequest.protocolVersion);
+            httpResponse.sendOKMessage(protocolVersion);
             sendResponseOnRequestedContent(requestedContent);
         }
     }
 
     private void sendResponseOnRequestedContent(File requestedFile) {
-        if ( httpRequest.requestURL.equals("/") ) {
+        String requestURL = httpRequest.getRequestURL();
+
+        if (requestURL.equals("/")) {
             sendDefaultResponse();
-        } else if ( requestedFile.isDirectory() ) {
+        } else if (requestedFile.isDirectory()) {
             sendDefaultResponse();
         } else {
             httpResponse.sendResponse(requestedFile);
@@ -90,8 +96,10 @@ public class RequestHandler implements Runnable {
     }
 
     private void respondToPostRequests() {
-        httpResponse.sendOKMessage(httpRequest.protocolVersion);
-        httpResponse.sendResponse(new File(rootDirectory + httpRequest.requestURL));
+        String requestURL = httpRequest.getRequestURL();
+        String protocolVersion = httpRequest.getProtocolVersion();
+        httpResponse.sendOKMessage(protocolVersion);
+        httpResponse.sendResponse(new File(rootDirectory + requestURL));
     }
 
 }

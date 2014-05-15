@@ -1,5 +1,6 @@
 package net.therap.http;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,6 +11,25 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class RequestHeader {
-    String key;
-    List<String> values;
+
+    private String key;
+    private List<String> values;
+
+    public void parseRequestHeader(String line) {
+        String[] parsedLine = line.split(" ");
+        key = parsedLine[0];
+        values = new ArrayList<>();
+
+        for (int loop=1; loop < parsedLine.length; ++loop)
+            values.add(parsedLine[loop]);
+    }
+
+    public boolean keyEqualsTo(String key) {
+        return this.key.equals(key);
+    }
+
+    public List<String> getValues() {
+        return values;
+    }
+
 }

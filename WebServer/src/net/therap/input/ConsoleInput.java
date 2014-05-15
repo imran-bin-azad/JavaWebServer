@@ -31,10 +31,7 @@ public class ConsoleInput implements UserInput {
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        finally {
-            return line;
-        }
-
+        return line;
     }
 
     @Override
@@ -47,8 +44,6 @@ public class ConsoleInput implements UserInput {
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        finally {
-            return integer;
-        }
+        return integer;
     }
 }

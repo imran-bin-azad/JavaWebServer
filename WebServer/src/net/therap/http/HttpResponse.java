@@ -51,10 +51,9 @@ public class HttpResponse {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(file));
         ) {
             String line;
-            while ((line=bufferedReader.readLine())!=null) {
+            while ((line=bufferedReader.readLine()) != null) {
                 outToClient.println(line);
             }
-
             outToClient.flush();
         } catch (FileNotFoundException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

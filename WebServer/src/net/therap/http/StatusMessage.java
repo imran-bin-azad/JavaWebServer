@@ -11,8 +11,8 @@ public enum StatusMessage {
 
     OK(200,"OK"), NotFound(404,"Not Found"), BadRequest(400,"Bad Request");
 
-    int number;
-    String message;
+    public int number;
+    public String message;
 
     StatusMessage(int number, String message) {
         this.number = number;
